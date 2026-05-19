@@ -53,7 +53,8 @@ fun AppNavHost(
                 profileViewModel = profileViewModel,
                 onNavigateAdd = { navController.navigate(Routes.ContributeAdd) },
                 onNavigateEdit = { id -> navController.navigate(Routes.contributeEdit(id)) },
-                onNavigateDelete = { id -> navController.navigate(Routes.contributeDelete(id)) }
+                onNavigateDelete = { id -> navController.navigate(Routes.contributeDelete(id)) },
+                onBack = { navController.popBackStack() }
             )
         }
         composable(Routes.ContributeAdd) {

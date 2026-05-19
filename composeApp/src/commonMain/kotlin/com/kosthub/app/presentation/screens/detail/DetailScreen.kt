@@ -3,16 +3,21 @@ package com.kosthub.app.presentation.screens.detail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.kosthub.app.domain.model.Kost
@@ -28,7 +33,18 @@ fun DetailScreen(
     onBack: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text(text = "Detail Kost", style = MaterialTheme.typography.headlineSmall)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onBack) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Kembali"
+                )
+            }
+            Text(text = "Detail Kost", style = MaterialTheme.typography.headlineSmall)
+        }
         Spacer(modifier = Modifier.height(8.dp))
         when (uiState) {
             is UiState.Loading -> LoadingState()
@@ -39,7 +55,7 @@ fun DetailScreen(
                 if (kost == null) {
                     EmptyState(text = "Kost tidak ditemukan")
                 } else {
-                    DetailContent(kost = kost, onBack = onBack)
+                    DetailContent(kost = kost)
                 }
             }
         }
@@ -47,7 +63,7 @@ fun DetailScreen(
 }
 
 @Composable
-private fun DetailContent(kost: Kost, onBack: () -> Unit) {
+private fun DetailContent(kost: Kost) {
     Spacer(modifier = Modifier.height(8.dp))
     Box(
         modifier = Modifier
@@ -66,10 +82,6 @@ private fun DetailContent(kost: Kost, onBack: () -> Unit) {
     Text(text = "Fasilitas", style = MaterialTheme.typography.titleMedium)
     Spacer(modifier = Modifier.height(6.dp))
     Text(text = fasilitasLabels(kost).joinToString(", "))
-    Spacer(modifier = Modifier.height(16.dp))
-    Button(onClick = onBack) {
-        Text(text = "Kembali")
-    }
 }
 
 private fun fasilitasLabels(kost: Kost): List<String> {
